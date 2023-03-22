@@ -1,0 +1,22 @@
+version: '3'
+services:
+  cuda_python3:
+    image: npuheart
+    build: ./
+    volumes:
+        - ./log:/var/log
+        # - ./home:/root
+    ports:
+      - "2222:22"
+    command: /usr/sbin/sshd -D
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+
+# sudo apt-get install docker-compose-plugin
+# sudo docker compose build
