@@ -2,7 +2,7 @@
 # Spack Dockerfile
 ################################################################################
 # Step 1 : Create a base image
-FROM ubuntu:22.04 AS builder
+FROM nvidia/cuda:12.3.1-devel-ubuntu22.04 AS builder
 ENV TZ Asia/Shanghai
 ENV LANG zh_CN.UTF-8
 
