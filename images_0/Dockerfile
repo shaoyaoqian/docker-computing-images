@@ -29,7 +29,7 @@ RUN wget https://www.baidu.com
 # ENV https_proxy http://172.23.160.1:7899
 RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/spack-0.21.1.tar.gz && tar -zxvf spack-0.21.1.tar.gz
 
-FROM release AS release1
+FROM release AS npuheartlala
 WORKDIR /root
 RUN mv spack-0.21.1 spack
 WORKDIR /root/spack
