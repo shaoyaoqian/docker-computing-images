@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/nvidia/cuda
-FROM nvidia/cuda:12.1.0-devel-ubuntu22.04
+FROM nvidia/cuda:12.3.1-devel-ubuntu22.04
 
 ENV TZ Asia/Shanghai
 ENV LANG zh_CN.UTF-8

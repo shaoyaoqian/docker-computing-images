@@ -4,6 +4,7 @@ services:
     build: ./
     volumes:
         - ./log:/var/log
+        # - ./home:/root
     ports:
       - "2222:22"
     command: /usr/sbin/sshd -D
