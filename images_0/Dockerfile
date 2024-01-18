@@ -20,7 +20,7 @@ RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # Step 2 : Install GCC
 FROM builder AS release
-RUN apt-get install -y gcc g++ make cmake git
+RUN apt-get install -y gcc g++ gfortran make cmake git
 RUN wget https://www.baidu.com
 # ENV http_proxy http://172.23.160.1:7899
 # ENV https_proxy http://172.23.160.1:7899
@@ -36,6 +36,8 @@ FROM npuheartlala AS lahalaha
 WORKDIR /root/spack
 ADD https://github.com/shaoyaoqian/docker-computing-images/releases/download/v0.04/spack.yaml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
 RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
+RUN . ~/spack/share/spack/setup-env.sh && spack install cmake
+
 # RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
 
 EXPOSE 22
