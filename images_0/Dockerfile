@@ -1,6 +1,7 @@
-# https://hub.docker.com/r/nvidia/cuda
-FROM ubuntu:22.04 AS builder
 
+
+# Step 1 : Create a base image
+FROM ubuntu:22.04 AS builder
 ENV TZ Asia/Shanghai
 ENV LANG zh_CN.UTF-8
 
@@ -9,20 +10,16 @@ RUN echo 'root:root' |chpasswd
  # 设置非交互式安装        
 ARG DEBIAN_FRONTEND=noninteractive     
 
-# Update
-# COPY ../sources_22.04.list /etc/apt/sources.list
-RUN apt-get update
-
 # Install SSH
+RUN apt-get update
 RUN apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /root/.ssh/
 COPY authorized_keys /root/.ssh/authorized_keys
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
+# Step 2 : Install GCC
 FROM builder AS release
-
-# Install GCC
 RUN apt-get install -y gcc g++ make cmake git
 RUN wget https://www.baidu.com
 # ENV http_proxy http://172.23.160.1:7899
@@ -30,12 +27,15 @@ RUN wget https://www.baidu.com
 RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/spack-0.21.1.tar.gz && tar -zxvf spack-0.21.1.tar.gz
 
 FROM release AS npuheartlala
-WORKDIR /root
-RUN mv spack-0.21.1 spack
 WORKDIR /root/spack
-# RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
-# COPY ./spack.yml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
-# RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
+RUN mv /root/spack-0.21.1 /root/spack
+RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
+
+# Step 3 : Install FEniCS
+FROM npuheartlala AS lahalaha
+WORKDIR /root/spack
+COPY ./spack.yml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
+RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
 # RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
 
 EXPOSE 22
