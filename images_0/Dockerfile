@@ -1,52 +1,51 @@
-#################################################################################
+################################################################################
 # Spack Dockerfile
-#################################################################################
-# # Step 1 : Create a base image
-# FROM ubuntu:22.04 AS builder
-# ENV TZ Asia/Shanghai
-# ENV LANG zh_CN.UTF-8
+################################################################################
+# Step 1 : Create a base image
+FROM ubuntu:22.04 AS builder
+ENV TZ Asia/Shanghai
+ENV LANG zh_CN.UTF-8
 
-# # 设置root用户密码为root
-# RUN echo 'root:root' |chpasswd  
-#  # 设置非交互式安装        
-# ARG DEBIAN_FRONTEND=noninteractive     
+# 设置root用户密码为root
+RUN echo 'root:root' |chpasswd  
+ # 设置非交互式安装        
+ARG DEBIAN_FRONTEND=noninteractive     
 
-# # Install SSH
-# RUN apt-get update
-# RUN apt-get install -y openssh-server
-# RUN mkdir -p /var/run/sshd
-# RUN mkdir -p /root/.ssh/
-# COPY authorized_keys /root/.ssh/authorized_keys
-# RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+# Install SSH
+RUN apt-get update
+RUN apt-get install -y openssh-server
+RUN mkdir -p /var/run/sshd
+RUN mkdir -p /root/.ssh/
+COPY authorized_keys /root/.ssh/authorized_keys
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
-# # Step 2 : Install GCC
-# FROM builder AS release
-# RUN apt-get install -y gcc g++ gfortran make cmake git 
-# RUN apt-get install -y xz-utils bzip2 zip
-# RUN wget https://www.baidu.com
-# # ENV http_proxy http://172.23.160.1:7899
-# # ENV https_proxy http://172.23.160.1:7899
-# RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/spack-0.21.1.tar.gz && tar -zxvf spack-0.21.1.tar.gz
+# Step 2 : Install GCC
+FROM builder AS release
+RUN apt-get install -y gcc g++ gfortran make cmake git 
+RUN apt-get install -y xz-utils bzip2 zip petsc-dev
+RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/spack-0.21.1.tar.gz && tar -zxvf spack-0.21.1.tar.gz
 
-# FROM release AS npuheartlala
-# RUN mv /root/spack-0.21.1 /root/spack
-# RUN pwd
-# RUN . ~/spack/share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
+FROM release AS npuheartlala
+RUN mv /root/spack-0.21.1 /root/spack
+RUN . ~/spack/share/spack/setup-env.sh && spack external find 
+RUN cat ~/.spack/packages.yaml
+RUN . ~/spack/share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
+RUN cat ~/.spack/packages.yaml
 
-# # Step 3 : Install FEniCS
+# Step 3 : Install FEniCS
 # FROM npuheartlala AS lahalaha
 # WORKDIR /root/spack
 # ADD https://github.com/shaoyaoqian/docker-computing-images/releases/download/v0.04/spack.yaml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
 # RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
 # RUN . ~/spack/share/spack/setup-env.sh && spack install cmake
-# # RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
+# RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
 
 # # Step 4 : Install 暴露22端口
 # EXPOSE 22
 #################################################################################
 # Spack and Kokkos Dockerfile
 #################################################################################
-FROM mapengfei/npuheart:v0.2.2
-WORKDIR /root/spack
-RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
-RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
+# FROM mapengfei/npuheart:v0.2.2
+# WORKDIR /root/spack
+# RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
+# RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
