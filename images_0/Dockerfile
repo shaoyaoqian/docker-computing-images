@@ -10,7 +10,7 @@ RUN echo 'root:root' |chpasswd
 ARG DEBIAN_FRONTEND=noninteractive     
 
 # Update
-COPY ../sources_22.04.list /etc/apt/sources.list
+# COPY ../sources_22.04.list /etc/apt/sources.list
 RUN apt-get update
 
 # Install SSH
@@ -25,8 +25,8 @@ FROM builder AS release
 # Install GCC
 RUN apt-get install -y gcc g++ make cmake git
 RUN wget https://www.baidu.com
-ENV http_proxy http://172.23.160.1:7899
-ENV https_proxy http://172.23.160.1:7899
+# ENV http_proxy http://172.23.160.1:7899
+# ENV https_proxy http://172.23.160.1:7899
 RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/spack-0.21.1.tar.gz && tar -zxvf spack-0.21.1.tar.gz
 
 FROM release AS release1
