@@ -27,7 +27,6 @@ RUN wget https://www.baidu.com
 RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/spack-0.21.1.tar.gz && tar -zxvf spack-0.21.1.tar.gz
 
 FROM release AS npuheartlala
-WORKDIR /root/spack
 RUN mv /root/spack-0.21.1 /root/spack
 RUN pwd
 RUN . ~/spack/share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
