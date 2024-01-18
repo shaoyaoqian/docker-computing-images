@@ -29,6 +29,7 @@ RUN cd /root && wget https://github.com/spack/spack/releases/download/v0.21.1/sp
 FROM release AS npuheartlala
 WORKDIR /root/spack
 RUN mv /root/spack-0.21.1 /root/spack
+RUN pwd
 RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
 
 # Step 3 : Install FEniCS
