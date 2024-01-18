@@ -34,7 +34,7 @@ RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env ac
 # Step 3 : Install FEniCS
 FROM npuheartlala AS lahalaha
 WORKDIR /root/spack
-COPY spack.yml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
+ADD https://github.com/shaoyaoqian/docker-computing-images/releases/download/v0.04/spack.yaml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
 RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
 # RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
 
