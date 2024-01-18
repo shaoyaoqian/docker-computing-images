@@ -20,7 +20,7 @@ RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # Step 2 : Install GCC
 FROM builder AS release
-RUN apt-get install -y gcc g++ gfortran make cmake git
+RUN apt-get install -y gcc g++ gfortran make cmake git xz-utils
 RUN wget https://www.baidu.com
 # ENV http_proxy http://172.23.160.1:7899
 # ENV https_proxy http://172.23.160.1:7899
