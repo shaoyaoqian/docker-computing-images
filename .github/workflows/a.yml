@@ -33,7 +33,7 @@ jobs:
           docker images
           cd images_0 && docker-compose build
           docker images
-          docker tag mapengfei/npuheart:v0.1 mapengfei/npuheart:v0.1
+          docker tag npuheart:v0.1 mapengfei/npuheart:v0.1
           docker push mapengfei/npuheart:v0.1
 
       # - name: Extract metadata (tags, labels) for Docker
