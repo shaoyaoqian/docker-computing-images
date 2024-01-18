@@ -16,7 +16,6 @@ RUN apt-get update
 RUN apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /root/.ssh/
-COPY authorized_keys /root/.ssh/authorized_keys
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # Step 2 : Install GCC
