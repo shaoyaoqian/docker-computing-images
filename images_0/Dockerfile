@@ -30,7 +30,7 @@ FROM release AS npuheartlala
 WORKDIR /root/spack
 RUN mv /root/spack-0.21.1 /root/spack
 RUN pwd
-RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
+RUN . ~/spack/share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
 
 # Step 3 : Install FEniCS
 FROM npuheartlala AS lahalaha
