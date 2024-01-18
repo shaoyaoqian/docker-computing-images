@@ -33,10 +33,10 @@ FROM release AS release1
 WORKDIR /root
 RUN mv spack-0.21.1 spack
 WORKDIR /root/spack
-RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
-COPY ./spack.yml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
-RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
-RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
+# RUN . share/spack/setup-env.sh && spack env create fenics_kokkos && spack env activate fenics_kokkos -p
+# COPY ./spack.yml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
+# RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
+# RUN . share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
 
 EXPOSE 22
 
