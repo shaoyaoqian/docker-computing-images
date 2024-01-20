@@ -38,8 +38,7 @@ RUN cat /root/.spack/packages.yaml
 FROM npuheartlala AS lahalaha
 WORKDIR /root/spack
 ADD https://github.com/shaoyaoqian/docker-computing-images/releases/download/v0.04/spack.yaml /root/spack/var/spack/environments/fenics_kokkos/spack.yaml
-RUN . ~/spack/share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f
-RUN . ~/spack/share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack install
+RUN . ~/spack/share/spack/setup-env.sh && spack env activate fenics_kokkos -p && spack concretize -f && spack install && spack clean --all
 
 # # Step 4 : Install 暴露22端口
 EXPOSE 22
